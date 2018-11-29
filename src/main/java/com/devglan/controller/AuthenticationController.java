@@ -21,12 +21,6 @@ import java.util.List;
 public class AuthenticationController {
 
     @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private JwtTokenUtil jwtTokenUtil;
-
-    @Autowired
     private UserService userService;
 
     @RequestMapping(value = "/generate-token", method = RequestMethod.POST)
@@ -39,8 +33,13 @@ public class AuthenticationController {
 
         //authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUser.getUsername(), loginUser.getPassword()));
         final User user = userService.findOne(loginUser.getUsername());
-        final String token = jwtTokenUtil.generateToken(user);
-        return new ApiResponse<>(200, "success",new AuthToken(token, user.getUsername()));
-    }
+        final String token = "token";
+        if (user.getRoleId()==1L){
+            return new ApiResponse<>(200, "admin",new AuthToken(token, user.getLogin()));
+        }else if(user.getRoleId()==2L){
+            return new ApiResponse<>(200, "user",new AuthToken(token, user.getLogin()));
+        } return new ApiResponse<>(200, "anon",null);
+
+}
 
 }

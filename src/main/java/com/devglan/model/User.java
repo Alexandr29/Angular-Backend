@@ -1,8 +1,12 @@
 package com.devglan.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "user")
@@ -10,27 +14,51 @@ public class User {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     @Column
-    private String firstName;
-    @Column
-    private String lastName;
-    @Column
-    private String username;
+    @Size(min = 4, max = 40, message = "login should be from 4 to 40 symbols")
+    private String login;
     @Column
     @JsonIgnore
+    @Size(min = 4, message = "password should be min. 6 symbols")
     private String password;
     @Column
-    private long salary;
+    @Size(min = 2, max = 30, message = "Enter valid First name")
+    private String firstName;
     @Column
-    private int age;
+    @Size(min = 2, max = 30, message = "Enter valid Last name")
+    private String lastName;
+    @Column
+    @Email
+    private String email;
+    @Column
+    @NotNull
+    private Long roleId;
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getPassword() {
+        System.out.println(password + "!!!!!!!GET");
+        return password;
+    }
+
+    public void setPassword(String password) {
+        System.out.println(password + "1!!!!!!!!!!!!SET");
+        this.password = password;
     }
 
     public String getFirstName() {
@@ -49,48 +77,32 @@ public class User {
         this.lastName = lastName;
     }
 
-    public String getUsername() {
-        return username;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getPassword() {
-        return password;
+    public Long getRoleId() {
+        return roleId;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public long getSalary() {
-        return salary;
-    }
-
-    public void setSalary(long salary) {
-        this.salary = salary;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
     }
 
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", salary=" + salary +
-                ", age=" + age +
+                ", email='" + email + '\'' +
+                ", roleId=" + roleId +
                 '}';
     }
 }

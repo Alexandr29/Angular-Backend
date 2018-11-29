@@ -2,20 +2,36 @@ package com.devglan.model;
 
 public class UserDto {
 
-    private int id;
+    private Long id;
+    private String login;
+    private String password;
     private String firstName;
     private String lastName;
-    private String username;
-    private String password;
-    private int age;
-    private int salary;
+    private String email;
+    private Long roleId;
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getFirstName() {
@@ -34,35 +50,19 @@ public class UserDto {
         this.lastName = lastName;
     }
 
-    public String getUsername() {
-        return username;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getPassword() {
-        return password;
+    public Long getRoleId() {
+        return roleId;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public int getSalary() {
-        return salary;
-    }
-
-    public void setSalary(int salary) {
-        this.salary = salary;
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
     }
 }

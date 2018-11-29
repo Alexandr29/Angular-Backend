@@ -25,11 +25,12 @@ public class UserController {
 
     @GetMapping
     public ApiResponse<List<User>> listUser(){
+        System.out.println(userService.findOne("admin").getPassword());
         return new ApiResponse<>(HttpStatus.OK.value(), "User list fetched successfully.",userService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ApiResponse<User> getOne(@PathVariable int id){
+    public ApiResponse<User> getOne(@PathVariable Long id){
         return new ApiResponse<>(HttpStatus.OK.value(), "User fetched successfully.",userService.findById(id));
     }
 
@@ -39,7 +40,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ApiResponse<Void> delete(@PathVariable int id) {
+    public ApiResponse<Void> delete(@PathVariable Long id) {
         userService.delete(id);
         return new ApiResponse<>(HttpStatus.OK.value(), "User fetched successfully.", null);
     }

@@ -25,15 +25,13 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 	@Autowired
 	private UserDao userDao;
 
-	@Autowired
-	private BCryptPasswordEncoder bcryptEncoder;
 
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = userDao.findByUsername(username);
+	public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
+		User user = userDao.findByLogin(login);
 		if(user == null){
 			throw new UsernameNotFoundException("Invalid username or password.");
 		}
-		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), getAuthority());
+		return new org.springframework.security.core.userdetails.User(user.getLogin(), user.getPassword(), getAuthority());
 	}
 
 	private List<SimpleGrantedAuthority> getAuthority() {
@@ -47,17 +45,17 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 	}
 
 	@Override
-	public void delete(int id) {
+	public void delete(Long id) {
 		userDao.deleteById(id);
 	}
 
 	@Override
-	public User findOne(String username) {
-		return userDao.findByUsername(username);
+	public User findOne(String login) {
+		return userDao.findByLogin(login);
 	}
 
 	@Override
-	public User findById(int id) {
+	public User findById(Long id) {
 		Optional<User> optionalUser = userDao.findById(id);
 		return optionalUser.isPresent() ? optionalUser.get() : null;
 	}
@@ -66,7 +64,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     public UserDto update(UserDto userDto) {
         User user = findById(userDto.getId());
         if(user != null) {
-            BeanUtils.copyProperties(userDto, user, "password");
+            BeanUtils.copyProperties(userDto, user);
             userDao.save(user);
         }
         return userDto;
@@ -75,12 +73,12 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Override
     public User save(UserDto user) {
 	    User newUser = new User();
-	    newUser.setUsername(user.getUsername());
+	    newUser.setLogin(user.getLogin());
 	    newUser.setFirstName(user.getFirstName());
 	    newUser.setLastName(user.getLastName());
-	    newUser.setPassword(bcryptEncoder.encode(user.getPassword()));
-		newUser.setAge(user.getAge());
-		newUser.setSalary(user.getSalary());
+	    newUser.setPassword(user.getPassword());
+		newUser.setEmail(user.getEmail());
+		newUser.setRoleId(user.getRoleId());
         return userDao.save(newUser);
     }
 }
