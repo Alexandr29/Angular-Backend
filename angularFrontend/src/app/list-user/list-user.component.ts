@@ -17,17 +17,20 @@ export class ListUserComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (!window.localStorage.getItem('token')) {
-      this.router.navigate(['login']);
-      return;
-    }
+     if (!window.localStorage.getItem('token')) {
+       this.router.navigate(['login']);
+       return;
+     }
     this.apiService.getUsers()
       .subscribe(data => {
-        this.users = data.result;
+        this.users = data.user;
       });
   }
 
   logout(): void {
+    // this.apiService.logout();
+    window.sessionStorage.clear();
+    window.localStorage.clear();
     this.router.navigate(['login']);
   }
 

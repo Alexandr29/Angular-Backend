@@ -10,10 +10,10 @@ export class ApiService {
   constructor(private http: HttpClient) {
   }
 
-  baseUrl = 'http://localhost:8080/users';
+  baseUrl = 'http://localhost:8080/rest/users';
 
   login(loginPayload): Observable<ApiResponse> {
-    return this.http.post<ApiResponse>('http://localhost:8080/' + 'token/generate-token', loginPayload);
+    return this.http.post<ApiResponse>('http://localhost:8080/' + 'temp', loginPayload);
   }
 
   logout(): Observable<ApiResponse> {

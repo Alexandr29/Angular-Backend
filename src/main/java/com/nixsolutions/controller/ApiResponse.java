@@ -1,4 +1,5 @@
-package com.nixsolutions.model;
+package com.nixsolutions.controller;
+
 
 public class ApiResponse<T> {
 

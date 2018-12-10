@@ -1,8 +1,10 @@
 package com.nixsolutions.service;
 
-import com.nixsolutions.service.dao.UserDao;
+import com.nixsolutions.service.dao.RoleDao;
+import com.nixsolutions.service.impl.Role;
 import com.nixsolutions.service.impl.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,37 +13,34 @@ import java.util.List;
 
 @Service
 @EnableTransactionManagement
-public class UserService {
+public class RoleService {
+
     @Autowired
-    private UserDao userDao;
+    private RoleDao roleDao;
 
     @Transactional
-    public void create(User user) {
-        userDao.create(user);
-    }
-
-    @Transactional
-    public void update(User user) {
-        userDao.update(user);
+    public void create(Role role) {
+        roleDao.create(role);
     }
 
     @Transactional
-    public void remove(User user) {
-        userDao.remove(user);
+    public void update(Role role) {
+        roleDao.update(role);
+    }
+
+    @Transactional
+    public void remove(Role role) {
+        roleDao.remove(role);
     }
 
     @Transactional(readOnly = true)
-    public List<User> findAll() {
-        return userDao.findAll();
+    public List<Role> findAll() {
+        return roleDao.findAll();
+
     }
 
     @Transactional(readOnly = true)
-    public User findByLogin(String login) {
-        return userDao.findByLogin(login);
-    }
-
-    @Transactional(readOnly = true)
-    public User findById(Long id) {
-        return userDao.findById(id);
+    public Role findById(Long id) {
+        return roleDao.findById(id);
     }
 }

@@ -1,31 +1,26 @@
 package com.nixsolutions.config;
 
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
-
-import javax.annotation.Resource;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
-    @Resource(name = "userService")
-    private UserDetailsService userDetailsService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable().
-                authorizeRequests()
-                .antMatchers("/token/*", "/signup", "/**").permitAll()
-                .anyRequest().authenticated()
-                .and().logout()
-                .logoutUrl("logout").logoutSuccessUrl("/signup").invalidateHttpSession(true)
-                .permitAll();
+        http.authorizeRequests().antMatchers("/", "/login", "/registration","/temp")
+                .permitAll()
+                .antMatchers("/edit", "/admin", "/edit/*", "/create", "/remove")
+                .hasAuthority("ADMIN").antMatchers("/user").hasAuthority("USER")
+                .and().formLogin().loginPage("/login")
+                .defaultSuccessUrl("/enter").usernameParameter("login")
+                .passwordParameter("password").and().logout()
+                .logoutUrl("/logout").logoutSuccessUrl("/?logout=true")
+                .permitAll()
+                .and().csrf().disable();
     }
 
 }

@@ -1,48 +1,28 @@
 package com.nixsolutions.controller;
 
-import com.nixsolutions.model.ApiResponse;
-import com.nixsolutions.model.User;
-import com.nixsolutions.model.UserDto;
-import com.nixsolutions.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
-@RestController
-@RequestMapping("/users")
+@RequestMapping("/user")
+@Controller
 public class UserController {
 
-    @Autowired
-    private UserService userService;
-
-    @PostMapping
-    public ApiResponse<User> saveUser(@RequestBody UserDto user) {
-        return new ApiResponse<>(HttpStatus.OK.value(), "User saved successfully.", userService.save(user));
+    @RequestMapping(method = RequestMethod.GET)
+    protected ModelAndView userGet(
+            HttpServletRequest req, HttpServletResponse resp) {
+        return new ModelAndView("user");
     }
 
-    @GetMapping
-    public ApiResponse<List<User>> listUser() {
-        return new ApiResponse<>(HttpStatus.OK.value(), "User list fetched successfully.", userService.findAll());
+    @RequestMapping(method = RequestMethod.POST)
+    protected ModelAndView userPost(
+            HttpServletRequest req, HttpServletResponse resp) {
+        ModelAndView modelAndView = new ModelAndView("redirect:/user");
+        return modelAndView;
     }
-
-    @GetMapping("/{id}")
-    public ApiResponse<User> getOne(@PathVariable Long id) {
-        return new ApiResponse<>(HttpStatus.OK.value(), "User fetched successfully.", userService.findById(id));
-    }
-
-    @PutMapping("/{id}")
-    public ApiResponse<UserDto> update(@RequestBody UserDto userDto) {
-        return new ApiResponse<>(HttpStatus.OK.value(), "User updated successfully.", userService.update(userDto));
-    }
-
-    @DeleteMapping("/{id}")
-    public ApiResponse<Void> delete(@PathVariable Long id) {
-        userService.delete(id);
-        return new ApiResponse<>(HttpStatus.OK.value(), "User fetched successfully.", null);
-    }
-
 
 }

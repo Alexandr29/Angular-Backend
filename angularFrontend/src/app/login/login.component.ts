@@ -25,9 +25,9 @@ export class LoginComponent implements OnInit {
       password: this.loginForm.controls.password.value
     };
     this.apiService.login(loginPayload).subscribe(data => {
-      // debugger;
       if (data.message === 'admin') {
-        window.localStorage.setItem('token', data.result.token);
+        window.sessionStorage.setItem('firstName', data.message)
+         window.localStorage.setItem('token', data.message);
         this.router.navigate(['list-user']);
       } else if (data.message === 'user') {
         this.router.navigate(['user']);
@@ -39,7 +39,6 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    window.localStorage.removeItem('token');
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.compose([Validators.required])],
       password: ['', Validators.required]
